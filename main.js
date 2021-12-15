@@ -162,3 +162,20 @@ function paddleInCanvas(){
     mouseY =0;
   }  
 }
+
+function setup() {
+	canvas = createCanvas(700,600);
+	canvas.parent('canvas');
+
+	video = createCapture(VIDEO);
+	video.size(600, 400);
+  video.hide();
+  image(video, 0, 0, 700,600);
+
+	poseNet = ml5.poseNet(video, modelLoaded);
+}
+
+function modelLoaded()
+{
+	console.log("Model loaded!");
+}
