@@ -163,6 +163,10 @@ function paddleInCanvas(){
   }  
 }
 
+rightX = "";
+rightY = "";
+rightScore = "";
+
 function setup() {
 	canvas = createCanvas(700,600);
 	canvas.parent('canvas');
@@ -173,9 +177,32 @@ function setup() {
   image(video, 0, 0, 700,600);
 
 	poseNet = ml5.poseNet(video, modelLoaded);
+	poseNet.on('pose', gotPoses);
 }
 
 function modelLoaded()
 {
 	console.log("Model loaded!");
+}
+
+function gotPoses(results)
+{
+	if (results.length > 0)
+	{
+		console.log(results);
+		rightX = results[0].pose.right.x;
+		rightY = results[0].pose.right.y;
+    rightScore = results[0].playerscore;
+	}
+}
+
+function draw()
+{
+  if (rightScore > 0.2)
+  {
+    fill(255, 0, 0);
+    stroke(128, 255, 255);
+
+    circle(rightX, rightY, 10);
+  }
 }
